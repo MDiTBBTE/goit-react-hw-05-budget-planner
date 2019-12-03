@@ -6,6 +6,7 @@ import Label from '../shared/Label';
 import Input from '../shared/Input';
 import Button from '../shared/Button';
 import checkInputExpense from '../Notifications/checkInputExpense';
+import checkNameInput from '../Notifications/checkNameInput.jsx';
 
 const labelStyles = `
   margin-bottom: 16px;
@@ -15,13 +16,17 @@ const ExpenseForm = ({ addExpense, balance }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const resultInput = {
-      id: shortid.generate(),
-      name: e.target.querySelector('input[name="name"]').value,
-      amount: Number(e.target.querySelector('input[name="amount"]').value),
-    };
+    if (checkNameInput(e.target.querySelector('input[name="name"]').value)) {
+      const resultInput = {
+        id: shortid.generate(),
+        name: e.target.querySelector('input[name="name"]').value,
+        amount: Number(e.target.querySelector('input[name="amount"]').value),
+      };
 
-    if (checkInputExpense(resultInput.amount, balance)) addExpense(resultInput);
+      if (checkInputExpense(resultInput.amount, balance))
+        addExpense(resultInput);
+    } else {
+    }
 
     e.target.reset();
   };
